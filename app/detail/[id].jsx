@@ -87,69 +87,71 @@ const Detail = () => {
         >
           {error.message}
         </Text>
-      )}
+      ) 
+      
+      }
 
 
-      {isLoading && (
+      {isLoading ? (
         <Spinner
           visible={isLoading}
           textContent={"Loading..."}
           textStyle={{ color: "deeppink" }}
         />
-      ) }
+      ) : (<View style={{ flex: 1 }}>
+        <ScrollView refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      } showsVerticalScrollIndicator={false} style={styles.card}>
+          <Image
+            resizeMode="contain"
+            source={{ uri: data?.image }}
+            style={{
+              width: "90%",
+              height: 300,
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+              marginTop: 20,
+            }}
+          />
+          <Text style={styles.price}>MMK {data?.price}</Text>
+          <Text style={styles.productName}>{data?.title}</Text>
 
-
-      {data &&  (<View style={{ flex: 1 }}>
-          <ScrollView refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        } showsVerticalScrollIndicator={false} style={styles.card}>
-            <Image
-              resizeMode="contain"
-              source={{ uri: data?.image }}
-              style={{
-                width: "90%",
-                height: 300,
-                justifyContent: "center",
-                alignItems: "center",
-                alignSelf: "center",
-                marginTop: 20,
-              }}
+          <View style={styles.authenticityContainer}>
+            <Ionicons
+              name="shield-checkmark-sharp"
+              size={24}
+              color="orange"
             />
-            <Text style={styles.price}>MMK {data?.price}</Text>
-            <Text style={styles.productName}>{data?.title}</Text>
-
-            <View style={styles.authenticityContainer}>
-              <Ionicons
-                name="shield-checkmark-sharp"
-                size={24}
-                color="orange"
-              />
-              <Text>100% Authentic </Text>
-            </View>
-
-            <View style={styles.authenticityContainer}>
-              <Fontisto name="star" size={24} color="orange" />
-              <Text>{data?.rating.rate}</Text>
-              <Text> stock({data?.rating.count})</Text>
-            </View>
-
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>Description</Text>
-              <Text style={styles.descriptionText}>{data?.description}</Text>
-            </View>
-          </ScrollView>
-
-          {/* Fixed Bottom View */}
-          <View style={styles.fixedBottomView}>
-            <Ionicons name="storefront-sharp" size={24} color="gray" />
-            <MaterialIcons name="chat" size={24} color="gray" />
-            <Text style={styles.fixedBottomText1}>Buy Now</Text>
-            <TouchableOpacity onPress={() => addCart(data)}>
-               <Text style={styles.fixedBottomText}>Add to Card</Text>
-            </TouchableOpacity>
-           
+            <Text>100% Authentic </Text>
           </View>
-        </View>)}
+
+          <View style={styles.authenticityContainer}>
+            <Fontisto name="star" size={24} color="orange" />
+            <Text>{data?.rating.rate}</Text>
+            <Text> stock({data?.rating.count})</Text>
+          </View>
+
+          <View style={styles.descriptionContainer}>
+            <Text  style={styles.description}>Description</Text>
+            <Text style={styles.descriptionText}>{data?.description}</Text>
+          </View>
+        </ScrollView>
+
+        {/* Fixed Bottom View */}
+        <View style={styles.fixedBottomView}>
+          <Ionicons name="storefront-sharp" size={24} color="gray" />
+          <MaterialIcons name="chat" size={24} color="gray" />
+          <Text style={styles.fixedBottomText1}>Buy Now</Text>
+          <TouchableOpacity onPress={() => addCart(data)}>
+             <Text style={styles.fixedBottomText}>Add to Card</Text>
+          </TouchableOpacity>
+         
+        </View>
+      </View>) }
+
+
+      
 
 
 

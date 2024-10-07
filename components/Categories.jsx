@@ -19,7 +19,8 @@ const Categories = () => {
     <>
       {/* Title Section */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Categories</Text>
+        <Text  style={styles.headerText}>Categories</Text>
+        
         <TouchableOpacity>
            
           <Text style={styles.shopMoreText}>SHOP MORE ...</Text>

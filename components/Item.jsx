@@ -19,6 +19,8 @@ const Item = () => {
   const router = useRouter();
   const { data, error, isLoading } = useSWR(api, fetcher);
 
+  
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
@@ -37,7 +39,7 @@ const Item = () => {
         }}
       />
       <Text style={styles.gridItemText}>{item.title}</Text>
-      <Text style={styles.price}> MMK {item.price}</Text>
+      <Text  style={styles.price}> MMK {item.price}</Text>
     </TouchableOpacity>
   );
   

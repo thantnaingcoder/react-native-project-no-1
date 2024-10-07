@@ -42,7 +42,7 @@ const CardList = ({item}) => {
          />
          <Image resizeMode='contain' style={styles.photo}  source={{uri : item.image}}/>
          <View style={styles.detail}>
-             <Text >{item.title}</Text>
+             <Text  >{item.title}</Text>
              
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={{color:"red"}}>MMK {item.price}</Text>

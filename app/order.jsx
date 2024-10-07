@@ -4,7 +4,7 @@ import React from 'react'
 const order = () => {
   return (
     <View>
-      <Text>order</Text>
+      <Text className=" text-green-500">order</Text>
     </View>
   )
 }

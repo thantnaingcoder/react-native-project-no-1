@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "my-tailwind",
+    "name": "Shop",
     "slug": "my-tailwind",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/undraw_Thought_process_re_om58.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,20 +17,26 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/undraw_Thought_process_re_om58.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.david2024.mytailwind"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/undraw_Thought_process_re_om58.png"
     },
     "plugins": [
       "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "80f1ba05-9cd0-41df-9551-650929f2a7f0"
+      }
     }
   }
 }
