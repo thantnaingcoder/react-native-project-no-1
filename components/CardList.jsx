@@ -1,30 +1,26 @@
-import { StyleSheet, Text, View ,Image,ScrollView} from 'react-native'
-import React from 'react'
-const pho ="https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg" 
+import { StyleSheet, Text, View ,Image,ScrollView,TouchableOpacity} from 'react-native'
+import React, { useEffect, useState } from 'react'
+
 import Foundation from '@expo/vector-icons/Foundation';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { CheckBox } from '@rneui/themed';
-import { useDeleCartList, useStore } from '../store/store';
+import {  useStore } from '../store/store';
 
 const CardList = ({item}) => {
     const cart = useStore((state) => state.cart);
-    const addCart = useStore((state) => state.addCart);
-    const removeCart = useStore((state) => state.removeCart);
-
-
-    const addDeleCart =useDeleCartList((state) => state.addDeleCart);
-    const totalCardId = useDeleCartList((state) => state.totalCardId);
+    const toggleCheck =useStore((state) => state.toggleCheck);
+    const addQuantity = useStore((state) => state.addQuantity);
+    const removeQuantity = useStore((state) => state.removeQuantity);
     
-    console.log(totalCardId)
+     
 
-    const [checked, setChecked] = React.useState({state : false ,id : null});
-    //    console.log(checked)
-     const toggleCheckbox = async () => {
-         setChecked({state : !checked.state ,id : item.id})
-           
-         checked.id !== null && checked.state === true && await addDeleCart(checked)
-         
-     };
+    const reduceItemQuantity = id => {
+        if(item.quantity > 1)  removeQuantity(item.id)
+    }
+
+    const addItemQuantity = (id) => {
+        addQuantity(item.id)
+    }
 
 
   return (
@@ -32,9 +28,12 @@ const CardList = ({item}) => {
 
       <View style={styles.card} >
       <CheckBox
-           checked={checked.state}
-           onPress={toggleCheckbox}
-           // Use ThemeProvider to make change for all checkbox
+           checked={item.check}
+          
+           value={item.check}
+           onPress={() => toggleCheck(item.id)}
+        //    onValueChange={() => alert("test")}
+           // Use ThemeProvider to make change for all checkbox`
            iconType="material-community"
            checkedIcon="checkbox-marked"
            uncheckedIcon="checkbox-blank-outline"
@@ -45,14 +44,16 @@ const CardList = ({item}) => {
              <Text  >{item.title}</Text>
              
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-            <Text style={{color:"red"}}>MMK {item.price}</Text>
+            <Text style={{color:"red"}}>USD {item.price}</Text>
 
 
             <View style={{flexDirection:"row",gap:20,alignItems:"center"}}>
-            <Foundation name="minus" size={10} color="gray" />
-            <Text style={{fontSize:17}}>5</Text>
-            <FontAwesome5 name="plus" size={10} color="gray" />
+            <TouchableOpacity onPress={() => reduceItemQuantity(item.id)}><Foundation name="minus" size={15} color="gray" /></TouchableOpacity>
+            <Text style={{fontSize:17}}>{item.quantity}</Text>
+            <TouchableOpacity onPress={() => addItemQuantity(item.id) }><FontAwesome5  style={{marginRight : 10}} name="plus" size={15} color="gray" /></TouchableOpacity>
             </View>
+            
+
             </View>
          </View>
         

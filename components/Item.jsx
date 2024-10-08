@@ -38,8 +38,8 @@ const Item = () => {
           maxHeight: "80%",
         }}
       />
-      <Text style={styles.gridItemText}>{item.title}</Text>
-      <Text  style={styles.price}> MMK {item.price}</Text>
+      <Text numberOfLines={2} style={styles.gridItemText}>{item.title}</Text>
+      <Text  style={styles.price}> $ {item.price}</Text>
     </TouchableOpacity>
   );
   
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1, // This ensures that items share equal space within the row
-    margin: 10,
+    margin: 20,
 
     height: width / 2.5, // Responsive height based on screen width
 
@@ -120,6 +120,9 @@ const styles = StyleSheet.create({
   },
   gridItemText: {
     fontSize: 12,
+    marginBottom: 5,
+    
+   
   },
   price: {
     fontSize: 17,

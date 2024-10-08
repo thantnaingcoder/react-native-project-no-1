@@ -25,7 +25,7 @@ const Detail = () => {
   const cart = useStore((state) => state.cart);
   const addCart=useStore((state) => state.addCart);
   const [refreshing, setRefreshing] = React.useState(false);
-
+   console.log(cart)
   const navigation = useNavigation();
   const router = useRouter();
   const { id } = useLocalSearchParams();
@@ -36,15 +36,14 @@ const Detail = () => {
   );
 
 
-  
-
+  const exitItem =  !!cart.find((item) => item?.id === Number(id))
+           
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   });
-   
    
 
   useLayoutEffect(() => {
@@ -71,6 +70,14 @@ const Detail = () => {
       ),
     });
   }, [navigation, cart]);
+
+
+  const addToCard = data => {
+    if (exitItem) {
+      return alert("Already in cart");
+    }
+    addCart(data);
+  } 
 
   return (
     <>
@@ -143,9 +150,15 @@ const Detail = () => {
           <Ionicons name="storefront-sharp" size={24} color="gray" />
           <MaterialIcons name="chat" size={24} color="gray" />
           <Text style={styles.fixedBottomText1}>Buy Now</Text>
-          <TouchableOpacity onPress={() => addCart(data)}>
-             <Text style={styles.fixedBottomText}>Add to Card</Text>
+
+
+          
+        
+          <TouchableOpacity  onPress={() => addToCard(data)}>
+             <Text style={styles.fixedBottomText}>{exitItem ? "Added" : "Add to cart"}</Text>
           </TouchableOpacity>
+
+          
          
         </View>
       </View>) }

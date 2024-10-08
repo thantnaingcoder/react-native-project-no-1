@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native';
 
 const cart = () => {
   const cart = useStore((state) => state.cart);
+  const totalPrice = cart.map((item) => item.price * item.quantity).reduce((a, b) => a + b, 0).toFixed(2);
   return (
    <>
 
@@ -21,6 +22,11 @@ const cart = () => {
       {cart?.map((item,index) => <CardList key={index} item={item}  /> )}
       
     </ScrollView>
+
+    {cart.length > 0 &&  <View className=" px-10 py-2 flex flex-col gap-2 items-center ">
+        <Text className=" text-xl font-bold text-gray-500" >Sub Total Price :  <Text className="text-red-500">$ {totalPrice} </Text></Text>
+        <Text className=" text-md font-bold text-gray-500"> Total Item : <Text className="text-red-500">{cart.length}</Text></Text>
+    </View>}
    </>
   )
 }

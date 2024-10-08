@@ -11,7 +11,9 @@ import { useState } from 'react';
 import { useStore } from '../../store/store';
 export default function TabLayout() {
   const cart = useStore((state) => state.cart);
-  
+
+  const checkListId = cart.filter((item) => item.check === true).map((item) => item.id);
+  const removeCart = useStore((state) => state.removeCart);
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: 'red' ,headerShown: true}}>
       <Tabs.Screen
@@ -40,7 +42,14 @@ export default function TabLayout() {
           title: 'Cart',
           headerStyle: { backgroundColor: 'transparent' },
           headerShown: true,
-          headerRight : () => <TouchableOpacity onPress={() => alert("test")}><AntDesign style={{marginRight : 10}} name="delete" size={24} color="black" /></TouchableOpacity>,
+          headerRight : () => <TouchableOpacity
+           onPress={ () => {
+                 checkListId.forEach((id) => {
+                    removeCart(id);
+                 })
+           }  }
+           
+           ><AntDesign style={{marginRight : 20}} name="delete" size={24} color="black" /></TouchableOpacity>,
 
           tabBarIcon: ({ color }) =>  <View style={{ width: 24, height: 24 }}>
               <Ionicons name="cart-sharp" size={24} color={color} />

@@ -30,7 +30,7 @@ const carouselData = [
     image: "https://img.lazcdn.com/us/domino/9b9fb205-5cf1-4277-bed4-730a9e72c37f_MM-1053-360.jpg_760x760q80.jpg_.webp",
     caption: 'Enjoy Slide 3',
   },
-  // Add more items as needed
+ 
 ];
 
 
