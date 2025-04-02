@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Shop",
-    "slug": "my-tailwind",
+    "slug": "shop-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/undraw_Thought_process_re_om58.png",
@@ -24,18 +24,17 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/undraw_Thought_process_re_om58.png"
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router"
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "80f1ba05-9cd0-41df-9551-650929f2a7f0"
+        "projectId": "58e12e85-7e0f-46bf-8782-5345d3ef4d4c"
       }
     }
   }
