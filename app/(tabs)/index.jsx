@@ -16,6 +16,7 @@ import Item from "../../components/Item";
 import { useStore } from "../../store/store";
 import ConnectivityStatus from "../../networkCheck/networkCheck";
 import Carousel from "../../components/Carousel";
+import { AntDesign } from "@expo/vector-icons";
 
 const carouselData = [
   {
@@ -48,25 +49,27 @@ const index = () => {
   });
 
   const router = useRouter();
+  
+  const handleSearchPress = () => {
+    router.push('/search');
+  };
+  
   return (
     <>
       <ConnectivityStatus />
      
         
       <View style={styles.container}>
-        <SearchBar
-          style={{
-            borderWidth: 0.5,
-            padding: 3,
-            borderRadius: 8,
-            borderColor: "red",
-            paddingLeft: 20,
-          }}
-          platform="android"
-          placeholderTextColor="deeppink"
-          placeholder="Search..."
-          lightTheme={true}
-        />
+        <TouchableOpacity 
+          style={styles.searchBarWrapper}
+          activeOpacity={0.7}
+          onPress={handleSearchPress}
+        >
+          <View style={styles.searchBarContent}>
+            <AntDesign name="search1" size={20} color="gray" style={styles.searchIcon} />
+            <Text style={styles.searchPlaceholder}>Search products...</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
       {/* refresh control */}
@@ -94,11 +97,32 @@ const styles = StyleSheet.create({
   container: {
     //  marginTop : 18,
     alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
   backgroundImage: {
     borderRadius: 20,
     width: "100%",
     height: 145,
     justifyContent: "center", // Center the content
+  },
+  searchBarWrapper: {
+    width: "100%",
+    height: 48,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 24,
+    justifyContent: "center",
+    paddingHorizontal: 15,
+  },
+  searchBarContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchPlaceholder: {
+    color: "gray",
+    fontSize: 16,
   },
 });

@@ -9,13 +9,35 @@ import { Image } from 'react-native';
 import { View ,StyleSheet,Text,TouchableOpacity} from 'react-native';
 import { useState } from 'react';
 import { useStore } from '../../store/store';
+import { useRouter } from 'expo-router';
+
 export default function TabLayout() {
   const cart = useStore((state) => state.cart);
+  const router = useRouter();
 
   const checkListId = cart.filter((item) => item.check === true).map((item) => item.id);
   const removeCart = useStore((state) => state.removeCart);
+  
+  const handleSearchPress = () => {
+    router.push('/search');
+  };
+  
+  const renderHeaderRight = () => {
+    return (
+      <View style={styles.headerRightContainer}>
+        <TouchableOpacity onPress={handleSearchPress} style={styles.headerIcon}>
+          <AntDesign name="search1" size={22} color="black" />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'red' ,headerShown: true}}>
+    <Tabs screenOptions={{ 
+      tabBarActiveTintColor: 'red', 
+      headerShown: true,
+      headerRight: renderHeaderRight
+    }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -42,14 +64,23 @@ export default function TabLayout() {
           title: 'Cart',
           headerStyle: { backgroundColor: 'transparent' },
           headerShown: true,
-          headerRight : () => <TouchableOpacity
-           onPress={ () => {
-                 checkListId.forEach((id) => {
-                    removeCart(id);
-                 })
-           }  }
-           
-           ><AntDesign style={{marginRight : 20}} name="delete" size={24} color="black" /></TouchableOpacity>,
+          headerRight : () => (
+            <View style={styles.headerRightContainer}>
+              <TouchableOpacity
+                onPress={ () => {
+                  checkListId.forEach((id) => {
+                     removeCart(id);
+                  })
+                }}
+                style={styles.headerIcon}
+              >
+                <AntDesign name="delete" size={22} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleSearchPress} style={styles.headerIcon}>
+                <AntDesign name="search1" size={22} color="black" />
+              </TouchableOpacity>
+            </View>
+          ),
 
           tabBarIcon: ({ color }) =>  <View style={{ width: 24, height: 24 }}>
               <Ionicons name="cart-sharp" size={24} color={color} />
@@ -103,5 +134,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     fontWeight: 'bold',
+  },
+  headerRightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  headerIcon: {
+    marginLeft: 15,
+    padding: 5,
   },
 });
