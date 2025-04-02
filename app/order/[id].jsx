@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialIcons, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ordersData } from '../data/messageData';
+import { ordersData } from '../../data/messageData';
 
-const order = () => {
+const OrderDetail = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(null);
@@ -175,7 +175,7 @@ const order = () => {
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.actionButton} onPress={() => router.push(`/chat/1`)}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => router.push(`/chat/${currentOrder.id}`)}>
             <MaterialIcons name="chat" size={20} color="#fff" />
             <Text style={styles.actionButtonText}>Contact Support</Text>
           </TouchableOpacity>
@@ -203,8 +203,6 @@ const getStatusColor = (status) => {
       return '#666';
   }
 };
-
-export default order;
 
 const styles = StyleSheet.create({
   container: {
@@ -459,3 +457,5 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
+
+export default OrderDetail;

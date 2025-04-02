@@ -1,16 +1,16 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native'
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { chatData } from '../data/messageData';
+import { chatData } from '../../data/messageData';
 
-const chat = () => {
+const ChatDetail = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const flatListRef = useRef(null);
-  const [message, setMessage] = useState('');
-  const [chatMessages, setChatMessages] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
+  const [message, setMessage] = React.useState('');
+  const [chatMessages, setChatMessages] = React.useState([]);
+  const [currentChat, setCurrentChat] = React.useState(null);
+  const flatListRef = React.useRef(null);
 
   // Mock messages for the chat
   const mockMessages = [
@@ -58,7 +58,7 @@ const chat = () => {
     },
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Find the current chat based on the ID
     const chat = chatData.find(chat => chat.id === id);
     if (chat) {
@@ -192,10 +192,8 @@ const chat = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  )
-}
-
-export default chat
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -310,3 +308,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
 });
+
+export default ChatDetail;
