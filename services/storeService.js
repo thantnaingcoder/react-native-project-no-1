@@ -31,6 +31,38 @@ export const fetchProductById = async (id) => {
   }
 };
 
+// Helper function to fetch products by category
+export const fetchProductsByCategory = async (category) => {
+  try {
+    // If category is "all" or empty, fetch all products
+    if (!category || category === 'all') {
+      return fetchProducts();
+    }
+    
+    const response = await fetch(`${API_URL}category/${category}`);
+    if (!response.ok) {
+      // If the API doesn't support category filtering, fallback to client-side filtering
+      const allProducts = await fetchProducts();
+      return allProducts.filter(product => 
+        product.category.toLowerCase() === category.toLowerCase()
+      );
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching products for category ${category}:`, error);
+    // Fallback to client-side filtering if the API call fails
+    try {
+      const allProducts = await fetchProducts();
+      return allProducts.filter(product => 
+        product.category.toLowerCase() === category.toLowerCase()
+      );
+    } catch (innerError) {
+      console.error('Fallback filtering failed:', innerError);
+      throw innerError;
+    }
+  }
+};
+
 // Search functionality
 export const searchProducts = async (query) => {
   try {
@@ -138,5 +170,54 @@ export const useSearchStore = create((set) => ({
     } catch (error) {
       console.error('Error clearing recent searches:', error);
     }
+  }
+}));
+
+// Create a category store with Zustand
+export const useCategoryStore = create((set, get) => ({
+  categories: [
+    { name: "all", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg", label: "All Products" },
+    { name: "men's clothing", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" },
+    { name: "jewelery", image: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg" },
+    { name: "electronics", image: "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg" },
+    { name: "women's clothing", image: "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg" },
+  ],
+  selectedCategory: 'all',
+  filteredProducts: [],
+  isLoading: false,
+  error: null,
+  
+  setSelectedCategory: async (category) => {
+    set({ selectedCategory: category, isLoading: true, error: null });
+    try {
+      const products = await fetchProductsByCategory(category);
+      set({ filteredProducts: products, isLoading: false });
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
+  
+  getFilteredProducts: async () => {
+    const { selectedCategory, filteredProducts } = get();
+    
+    // If we already have filtered products and the category hasn't changed, return them
+    if (filteredProducts.length > 0) {
+      return filteredProducts;
+    }
+    
+    // Otherwise, fetch products for the selected category
+    set({ isLoading: true, error: null });
+    try {
+      const products = await fetchProductsByCategory(selectedCategory);
+      set({ filteredProducts: products, isLoading: false });
+      return products;
+    } catch (error) {
+      set({ error: error.message, isLoading: false });
+      return [];
+    }
+  },
+  
+  resetCategory: () => {
+    set({ selectedCategory: 'all', filteredProducts: [] });
   }
 }));

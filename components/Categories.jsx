@@ -1,39 +1,51 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity ,Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-const api = "https://fakestoreapi.com/products/"
-const categories = [
-    
-    { name : "men's clothing",image : "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"},
-    { name : "jewelery",image : "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg"},
-    { name : "electronics",image : "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg"},
-    { name : "women's clothing",image : "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg"},
-    { name : "Monitor",image : "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg"},
-
-
-
-];
+import { useCategoryStore } from '../services/storeService';
 
 const Categories = () => {
+  const { 
+    categories, 
+    selectedCategory, 
+    setSelectedCategory 
+  } = useCategoryStore();
+  
+  const handleCategoryPress = (categoryName) => {
+    setSelectedCategory(categoryName);
+  };
     
   return (
     <>
       {/* Title Section */}
       <View style={styles.headerContainer}>
-        <Text  style={styles.headerText}>Categories</Text>
+        <Text style={styles.headerText}>Categories</Text>
         
-        <TouchableOpacity>
-           
-          <Text style={styles.shopMoreText}>SHOP MORE ...</Text>
+        <TouchableOpacity onPress={() => setSelectedCategory('all')}>
+          <Text style={styles.shopMoreText}>VIEW ALL</Text>
         </TouchableOpacity>
       </View>
 
       {/* Horizontal Scrollable Categories */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
-        {categories.map((i, index) => (
-            
-          <TouchableOpacity key={index} style={styles.categoryButton}>
-             <Image resizeMode='contain' source={{uri :i.image}} style={{width : 50 , height : 70}}/>
-            <Text style={styles.categoryText}>{i.name}</Text>
+        {categories.map((category, index) => (
+          <TouchableOpacity 
+            key={index} 
+            style={[
+              styles.categoryButton,
+              selectedCategory === category.name && styles.selectedCategoryButton
+            ]}
+            onPress={() => handleCategoryPress(category.name)}
+          >
+            <Image 
+              resizeMode='contain' 
+              source={{uri: category.image}} 
+              style={styles.categoryImage}
+            />
+            <Text style={[
+              styles.categoryText,
+              selectedCategory === category.name && styles.selectedCategoryText
+            ]}>
+              {category.label || category.name}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -56,7 +68,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   shopMoreText: {
-    color: 'blue',
+    color: 'deeppink',
+    fontWeight: '600',
   },
   scrollContainer: {
     paddingHorizontal: 1,
@@ -72,8 +85,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#f0f0f0',
+  },
+  selectedCategoryButton: {
+    backgroundColor: '#fff0f5',
+    borderColor: 'deeppink',
+  },
+  categoryImage: {
+    width: 50, 
+    height: 70
   },
   categoryText: {
     fontSize: 14,
+  },
+  selectedCategoryText: {
+    color: 'deeppink',
+    fontWeight: 'bold',
   },
 });
