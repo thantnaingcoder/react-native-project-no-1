@@ -36,8 +36,16 @@ const SearchComponent = ({ onClose, fullScreen = false }) => {
 
   const handleItemPress = (item) => {
     // Navigate to product detail
-    router.push(`/detail/${item.id}`);
+    // Close the search modal/screen first if onClose is provided
     if (onClose) onClose();
+    
+    // Use a small timeout to ensure the modal is closed before navigation
+    setTimeout(() => {
+      router.push({
+        pathname: `/detail/${item.id}`,
+        params: { id: item.id }
+      });
+    }, 100);
   };
 
   const handleSearchPress = (term) => {
