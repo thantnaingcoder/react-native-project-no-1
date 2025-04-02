@@ -22,21 +22,10 @@ export default function TabLayout() {
     router.push('/search');
   };
   
-  const renderHeaderRight = () => {
-    return (
-      <View style={styles.headerRightContainer}>
-        <TouchableOpacity onPress={handleSearchPress} style={styles.headerIcon}>
-          <AntDesign name="search1" size={22} color="black" />
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  
   return (
     <Tabs screenOptions={{ 
       tabBarActiveTintColor: 'red', 
-      headerShown: true,
-      headerRight: renderHeaderRight
+      headerShown: true
     }}>
       <Tabs.Screen
         name="index"
@@ -75,9 +64,6 @@ export default function TabLayout() {
                 style={styles.headerIcon}
               >
                 <AntDesign name="delete" size={22} color="black" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSearchPress} style={styles.headerIcon}>
-                <AntDesign name="search1" size={22} color="black" />
               </TouchableOpacity>
             </View>
           ),
